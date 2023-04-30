@@ -1,0 +1,100 @@
+import java.io.*;
+import java.util.Scanner;
+
+public class student {
+    public static void main(String[] args)  {
+        boolean login=false;
+        Scanner sc=new Scanner(System.in);
+        File f = new File("detail.txt");
+        try{
+            if(f.createNewFile()){
+                System.out.println("File created successfully");
+            }
+            else {
+                System.out.println("File not created");
+            }
+        } catch (IOException e) {
+            System.out.println("File Error");
+        }
+        System.out.println("Press 1: Login");
+        System.out.println("Press 2: Create Account");
+        System.out.println("Press 3: Exit");
+        int press= sc.nextInt();
+        switch (press)
+        {
+            case 2:
+            {
+               System.out.println("Enter your name:");
+               String name=sc.next();
+               System.out.println("Enter username:");
+               String username=sc.next();
+               System.out.println("Enter password:");
+               String pass1=sc.next();
+               System.out.println("Confirm password:");
+               String pass2=sc.next();
+
+               if (pass1.equals(pass2))
+               {
+                   System.out.println("Account Created Successfully ");
+               }
+               else {
+                   System.out.println("Password not Matching");
+                   System.exit(404);
+               }
+
+               try{
+                FileOutputStream fout = new FileOutputStream("detail.txt",true);
+                PrintStream pout = new PrintStream(fout);
+                   pout.print(username + " ");
+                   pout.println(pass1);
+                   System.out.println("file written successfully");
+                   pout.close();
+               }
+               catch (IOException e) {
+                   System.out.println("File not Occurred");
+                   e.printStackTrace();
+               }
+                break;
+            }
+           case 1:
+           {
+               System.out.println("Enter username");
+               String user1=sc.next();
+               System.out.println("Enter password");
+               String pass=sc.next();
+
+                    try{
+                        FileReader read=new FileReader("detail.txt");
+                        Scanner s=new Scanner(read);
+                        while (s.hasNext())
+                        {
+                            if(user1.equals(s.next())&&pass.equals(s.next())) {
+                                System.out.println("login successfully");
+                                login = true;
+                                break;
+                            }
+                        }
+                        if(login == false)
+                        {
+                            System.out.println("Invalid");
+                        }
+                    }
+                    catch (Exception e){
+                        System.out.println("login error");
+                        e.printStackTrace();
+                    }
+
+               break;
+               }
+            case 0:{
+                System.out.println("Exit");
+                break;
+            }
+
+            default:
+                System.out.println("Not yet");
+                break;
+        }
+
+    }
+}
